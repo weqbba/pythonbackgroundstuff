@@ -1,0 +1,41 @@
+import json
+import os
+import sys
+
+CONFIG_FILE = "theme_config.json"
+
+COLOR_PRESETS = {
+    "1": {"name": "Classic Black", "bg": "\033[40m", "fg": "\033[97m"},
+    "2": {"name": "Deep Blue", "bg": "\033[44m", "fg": "\033[97m"},
+    "3": {"name": "Dark Green", "bg": "\033[42m", "fg": "\033[30m"},
+    "4": {"name": "Dark Cyan", "bg": "\033[46m", "fg": "\033[30m"},
+    "5": {"name": "Dark Magenta", "bg": "\033[45m", "fg": "\033[97m"},
+    "6": {"name": "Dark Red", "bg": "\033[41m", "fg": "\033[97m"},
+}
+
+
+def main():
+    print("=== Background Theme Customizer ===")
+    print("Select a background color preset for the System Monitor:\n")
+
+    for key, val in COLOR_PRESETS.items():
+        print(f" [{key}] {val['name']}")
+
+    choice = input("\nEnter choice number: ").strip()
+
+    if choice in COLOR_PRESETS:
+        selected = COLOR_PRESETS[choice]
+        try:
+            with open(CONFIG_FILE, "w") as f:
+                json.dump(selected, f, indent=4)
+            print(f"\nTheme successfully updated to '{selected['name']}'!")
+        except Exception as e:
+            print(f"\nFailed to save configuration: {e}")
+    else:
+        print("\nInvalid selection. No changes saved.")
+
+    input("\nPress Enter to exit...")
+
+
+if __name__ == "__main__":
+    main()
